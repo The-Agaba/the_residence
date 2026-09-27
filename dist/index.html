@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#0e1718" />
     <meta name="description" content="Interactive architectural digital twin and measured floor plan workspace." />
-    <link rel="manifest" href="/the_residence/assets/manifest-CrGx-v2b.webmanifest" />
+    <link rel="manifest" href="./assets/manifest-CrGx-v2b.webmanifest" />
+
     <title>The Residence / Digital Twin</title>
-    <script type="module" crossorigin src="/the_residence/assets/index-DIbUuxVJ.js"></script>
-    <link rel="stylesheet" crossorigin href="/the_residence/assets/index-CXboBHIe.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="./assets/index-BdVObsuM.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CXboBHIe.css">
   </head>
   <body>
     <!-- Top Navigation Bar -->

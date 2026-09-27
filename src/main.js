@@ -559,8 +559,8 @@ addWallSeg({ x: FP.xB, z: FP.zB3 }, { x: FP.xE, z: FP.zB3 });
 buildWallWithOpenings(
   { x: FP.xB, z: FP.zN }, { x: FP.xB, z: FP.zB3 },
   [
-    { pos: 9.5,  width: 3.0, type: 'door', id: 'door-bed02' }, // Bed 02 Entrance Door
-    { pos: 14.5, width: 3.0, type: 'door', id: 'door-bed03' }, // Bed 03 Entrance Door
+    { pos: 6.0,  width: 3.0, type: 'door', id: 'door-bed02' }, // Bed 02 Entrance Door
+    { pos: 18.0, width: 3.0, type: 'door', id: 'door-bed03' }, // Bed 03 Entrance Door
   ]
 );
 
@@ -582,7 +582,7 @@ buildWallWithOpenings(
 buildWallWithOpenings(
   { x: FP.xM, z: FP.zN }, { x: FP.xM, z: FP.zMB },
   [
-    { pos: 13.5, width: 3.0, type: 'door', id: 'door-master' }, // Master Bedroom Entrance Door from Hallway
+    { pos: 11.5, width: 3.0, type: 'door', id: 'door-master' }, // Master Bedroom Entrance Door from Hallway
   ]
 );
 
@@ -789,7 +789,7 @@ createDoor('d-master',  'Master Bedroom Door',    FP.xM, FP.zN + 11.5,  Math.PI 
 createDoor('d-bed02',   'Bedroom 02 Door',        FP.xB, FP.zN + 6.0,  -Math.PI / 2, 3.0,  Math.PI / 2.2);
 createDoor('d-bed03',   'Bedroom 03 Door',        FP.xB, FP.zN + 18.0, -Math.PI / 2, 3.0,  Math.PI / 2.2);
 createDoor('d-common',  'Common Washroom Door',   FP.xM, FP.zEN + 2.5,  Math.PI / 2, 2.8, -Math.PI / 2.2);
-createDoor('d-kyard',   'Kitchen Yard Door',      FP.xW, FP.zWC + 6.5,  Math.PI / 2, 2.8,  Math.PI / 2.2);
+createDoor('d-kyard',   'Kitchen Yard Door',      FP.xW, FP.zWC + 7.0,  Math.PI / 2, 2.8,  Math.PI / 2.2);
 createDoor('d-kdining', 'Kitchen Dining Door',    4.5,   FP.zK,         0,           3.0, -Math.PI / 2.2);
 
 // Configurable Doors
@@ -909,17 +909,17 @@ makeBox(groups.furniture, [1.4, 7.5, 3.0], [1.2, 0.44 + 3.75, 12.2], mat.doorWoo
 
 // 2. BEDROOM 02 (x: 17..29, z: 0..12)
 // Bed placed at cz = 5.5, rot = Math.PI (headboard south)
-createBed(23.0, 5.5, Math.PI);
-// Wardrobe moved to the West internal wall to avoid East window
-makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 3.0], mat.doorWood, { name: 'Bed02 Wardrobe' });
-makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 10.8], mat.doorWood, { name: 'Study Desk' });
+createBed(24.0, 6.0, Math.PI);
+// Wardrobe on West wall at z=10.0 (safely clear of door swing at z=6 and windows)
+makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 10.0], mat.doorWood, { name: 'Bed02 Wardrobe' });
+makeBox(groups.furniture, [3.2, 2.4, 1.5], [18.5, 0.44 + 1.2, 1.2], mat.doorWood, { name: 'Study Desk' });
 
 // 3. BEDROOM 03 (x: 17..29, z: 12..24)
 // Bed placed at cz = 18.0, rot = Math.PI
-createBed(23.0, 18.0, Math.PI);
-// Wardrobe moved to West internal wall to avoid East window
-makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 15.0], mat.doorWood, { name: 'Bed03 Wardrobe' });
-makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 22.8], mat.doorWood, { name: 'Study Desk' });
+createBed(24.0, 18.0, Math.PI);
+// Wardrobe on West wall at z=22.0 (safely clear of door swing at z=18 and windows)
+makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 22.0], mat.doorWood, { name: 'Bed03 Wardrobe' });
+makeBox(groups.furniture, [3.2, 2.4, 1.5], [18.5, 0.44 + 1.2, 13.2], mat.doorWood, { name: 'Study Desk' });
 
 // BATHROOM FIXTURES (Toilets, Vanities, Mirrors, Showers)
 function createBathroomSet(cx, cz) {
