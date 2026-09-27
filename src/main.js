@@ -20,15 +20,15 @@ const FP = {
   xE:  29.0,   // East exterior wall of bedrooms and living room
   xV:  35.0,   // East exterior boundary of front veranda
 
-  // Z coordinates (North to South)
+  // Z coordinates (North to South) — strictly aligned with sketch numbers (14, 5, 5, 9, 9)
   zN:   0.0,   // North exterior boundary
-  zB2: 12.0,   // Bed 02 south divider / Bed 03 north wall
-  zMB: 16.0,   // Master Bedroom south wall
-  zEN: 21.0,   // Ensuite south wall / Common bath north wall (5 ft depth)
-  zB3: 24.0,   // Bed 03 south wall / Living room north wall
-  zWC: 26.0,   // Common bath south wall / Kitchen north wall (5 ft depth)
-  zK:  34.0,   // Kitchen south wall / Dining north wall
-  zS:  42.0,   // South exterior boundary (Dining, Living, Veranda)
+  zB2: 12.0,   // Bed 02 south divider / Bed 03 north wall (12 ft)
+  zMB: 14.0,   // Master Bedroom south wall (14 ft)
+  zEN: 19.0,   // Ensuite south wall / Common bath north wall (5 ft)
+  zWC: 24.0,   // Common bath south wall / Kitchen north wall (5 ft)
+  zB3: 24.0,   // Bed 03 south wall / Living room north wall (12 ft)
+  zK:  33.0,   // Kitchen south wall / Dining north wall (9 ft)
+  zS:  42.0,   // South exterior boundary (Dining 9 ft, Living 18 ft)
 };
 
 // Heights
@@ -366,15 +366,15 @@ makeBox(groups.veranda, [FP.xV - FP.xE + 0.5, 0.4, FP.zS - FP.zB3 + 0.5],
 
 // ─────────────────────── ROOM FLOOR SLABS & DATA ──────────────────────────────
 const roomsData = [
-  { id: 'master', name: 'Master Bedroom', cx: 6.0,  cz: 8.0,  w: 12.0, d: 16.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 16'", sqft: 192, vent: 'North & West Windows', access: 'Central Hallway' },
-  { id: 'ensuite',name: 'Master Ensuite', cx: 8.5,  cz: 18.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Master Bedroom (Private)' },
-  { id: 'common', name: 'Common Washroom',cx: 8.5,  cz: 23.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Central Hallway' },
+  { id: 'master', name: 'Master Bedroom', cx: 6.0,  cz: 7.0,  w: 12.0, d: 14.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 14'", sqft: 168, vent: 'North & West Windows', access: 'Central Hallway' },
+  { id: 'ensuite',name: 'Master Ensuite', cx: 8.5,  cz: 16.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Master Bedroom (Private)' },
+  { id: 'common', name: 'Common Washroom',cx: 8.5,  cz: 21.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Central Hallway' },
   { id: 'bed02',  name: 'Bedroom 02',     cx: 23.0, cz: 6.0,  w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'North & East Windows', access: 'Central Hallway' },
   { id: 'bed03',  name: 'Bedroom 03',     cx: 23.0, cz: 18.0, w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'East Window',           access: 'Central Hallway' },
-  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 10.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
-  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 29.2, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
-  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 31.8, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen Only' },
-  { id: 'dining', name: 'Dining Hall',    cx: 6.0,  cz: 38.0, w: 12.0, d:  8.0, floor: mat.floorTile, type: 'Dining',  dims: "12' × 8'",  sqft: 96,  vent: 'South & West Windows', access: 'Living Room' },
+  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 12.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
+  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 28.5, w:  8.0, d:  9.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 9'",   sqft: 72,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
+  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 28.5, w:  4.0, d:  9.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 9'",   sqft: 36,  vent: 'Internal Joinery',      access: 'Within Kitchen Only' },
+  { id: 'dining', name: 'Dining Hall',    cx: 6.0,  cz: 37.5, w: 12.0, d:  9.0, floor: mat.floorTile, type: 'Dining',  dims: "12' × 9'",  sqft: 108, vent: 'South & West Windows', access: 'Living Room' },
   { id: 'living', name: 'Living Room',    cx: 20.5, cz: 33.0, w: 17.0, d: 18.0, floor: mat.floorTile, type: 'Living',  dims: "17' × 18'", sqft: 306, vent: 'South & East Windows', access: 'Front Veranda' },
   { id: 'veranda',name: 'Front Veranda',  cx: 32.0, cz: 33.0, w:  6.0, d: 18.0, floor: mat.floorPaver,type: 'Outdoor', dims: "6' × 18'",  sqft: 108, vent: 'Open Air Porch',       access: 'Exterior Garden' },
 ];
@@ -778,11 +778,11 @@ function createDoor(id, name, x, z, angle, width = DOOR_W, swing = -Math.PI / 2,
 
 // Permanent doors
 createDoor('d-front',   'Front Entrance Door',   FP.xE, FP.zB3 + 8.0,  Math.PI / 2, 3.5,  Math.PI / 2.2);
-createDoor('d-master',  'Master Bedroom Door',    FP.xM, FP.zN + 13.5,  Math.PI / 2, 3.0, -Math.PI / 2.2);
-createDoor('d-bed02',   'Bedroom 02 Door',        FP.xB, FP.zN + 9.5,  -Math.PI / 2, 3.0,  Math.PI / 2.2);
-createDoor('d-bed03',   'Bedroom 03 Door',        FP.xB, FP.zN + 14.5, -Math.PI / 2, 3.0,  Math.PI / 2.2);
+createDoor('d-master',  'Master Bedroom Door',    FP.xM, FP.zN + 11.5,  Math.PI / 2, 3.0, -Math.PI / 2.2);
+createDoor('d-bed02',   'Bedroom 02 Door',        FP.xB, FP.zN + 6.0,  -Math.PI / 2, 3.0,  Math.PI / 2.2);
+createDoor('d-bed03',   'Bedroom 03 Door',        FP.xB, FP.zN + 18.0, -Math.PI / 2, 3.0,  Math.PI / 2.2);
 createDoor('d-common',  'Common Washroom Door',   FP.xM, FP.zEN + 2.5,  Math.PI / 2, 2.8, -Math.PI / 2.2);
-createDoor('d-kyard',   'Kitchen Yard Door',      FP.xW, FP.zWC + 7.0,  Math.PI / 2, 2.8,  Math.PI / 2.2);
+createDoor('d-kyard',   'Kitchen Yard Door',      FP.xW, FP.zWC + 6.5,  Math.PI / 2, 2.8,  Math.PI / 2.2);
 createDoor('d-kdining', 'Kitchen Dining Door',    4.5,   FP.zK,         0,           3.0, -Math.PI / 2.2);
 
 // Configurable Doors
@@ -849,18 +849,18 @@ function createWindow(id, name, x, z, angle, width, height = WIN_H, isFrosted = 
 
 // Windows
 createWindow('w-m-n',  'Master BR North Window', 6.0,  FP.zN,  0, 4.5);
-createWindow('w-m-w',  'Master BR West Window',  FP.xW,8.0,    Math.PI/2, 4.5);
+createWindow('w-m-w',  'Master BR West Window',  FP.xW, 7.0,   Math.PI/2, 4.5);
 createWindow('w-h-n',  'Hallway Vent Window',    14.5, FP.zN,  0, 2.5);
 createWindow('w-b2-n', 'Bed 02 North Window',    23.0, FP.zN,  0, 4.5);
 createWindow('w-b2-e', 'Bed 02 East Window',     FP.xE,6.0,    Math.PI/2, 4.5);
 createWindow('w-b3-e', 'Bed 03 East Window',     FP.xE,18.0,   Math.PI/2, 4.5);
 createWindow('w-ens',  'Ensuite Frosted Window', FP.xWC, FP.zMB + 2.5, Math.PI/2, 2.5, 3.0, true);
 createWindow('w-com',  'Common Frosted Window',  FP.xWC, FP.zMB + 7.5, Math.PI/2, 2.5, 3.0, true);
-createWindow('w-kit-w','Kitchen West Window',    FP.xW,FP.zWC + 3.5, Math.PI/2, 4.0);
-createWindow('w-din-w','Dining West Window',     FP.xW,FP.zWC + 12.5, Math.PI/2, 4.0);
+createWindow('w-kit-w','Kitchen West Window',    FP.xW,FP.zWC + 3.0, Math.PI/2, 3.5);
+createWindow('w-din-w','Dining West Window',     FP.xW,FP.zWC + 13.5, Math.PI/2, 4.0);
 createWindow('w-din-s','Dining South Window',    6.0,  FP.zS,  0, 5.0);
 createWindow('w-liv-s','Living Panoramic Window',20.5, FP.zS,  0, 7.0);
-createWindow('w-liv-e','Living East Window',     FP.xE,FP.zB3 + 14.5, Math.PI/2, 4.5);
+createWindow('w-liv-e','Living East Window',     FP.xE,FP.zB3 + 9.0, Math.PI/2, 4.5);
 
 // ─────────────────────── REALISTIC FURNITURE (NO WALL PENETRATION) ────────────
 function createBed(cx, cz, rot, isKing = false) {
@@ -894,28 +894,22 @@ function createBed(cx, cz, rot, isKing = false) {
   groups.furniture.add(g);
 }
 
-// 1. MASTER BEDROOM (x: 0..12, z: 0..16)
-// Bed placed centrally at cz = 8.0, headboard against north wall
-createBed(6.0, 8.0, 0, true);
-// Wardrobe along west wall (size 1.5 x 7.5 x 4.0, placed at x=1.2, z=12.0) -> Completely inside room!
-makeBox(groups.furniture, [1.4, 7.5, 4.0], [1.2, 0.44 + 3.75, 12.0], mat.doorWood, { name: 'Master Wardrobe' });
+// 1. MASTER BEDROOM (x: 0..12, z: 0..14)
+// Bed placed centrally at cz = 7.0, headboard against north wall
+createBed(6.0, 7.0, 0, true);
+// Wardrobe along west wall (placed at x=1.2, z=11.0) -> Completely inside room!
+makeBox(groups.furniture, [1.4, 7.5, 3.5], [1.2, 0.44 + 3.75, 11.0], mat.doorWood, { name: 'Master Wardrobe' });
 
 // 2. BEDROOM 02 (x: 17..29, z: 0..12)
 // Bed placed at cz = 5.5, rot = Math.PI
 createBed(23.0, 5.5, Math.PI);
-// Wardrobe along East wall: centered at z = 6.0, away from north wall (z=0) and south wall (z=12)!
-// (Previously was at z=10.5 with length 4.0, which passed 0.5 ft into Bed 03. Fixed!)
 makeBox(groups.furniture, [1.4, 7.2, 3.2], [27.8, 0.44 + 3.6, 6.0], mat.doorWood, { name: 'Bed02 Wardrobe' });
-// Study Desk along south wall at z = 10.8
 makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 10.8], mat.doorWood, { name: 'Study Desk' });
 
 // 3. BEDROOM 03 (x: 17..29, z: 12..24)
 // Bed placed at cz = 18.0, rot = Math.PI
 createBed(23.0, 18.0, Math.PI);
-// Wardrobe along East wall: centered at z = 18.0, away from divider z=12 and living divider z=24!
-// (Previously was at z=22.5 with length 4.0, which penetrated into Living room. Fixed!)
 makeBox(groups.furniture, [1.4, 7.2, 3.2], [27.8, 0.44 + 3.6, 18.0], mat.doorWood, { name: 'Bed03 Wardrobe' });
-// Study Desk along south wall at z = 22.8
 makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 22.8], mat.doorWood, { name: 'Study Desk' });
 
 // BATHROOM FIXTURES (Toilets, Vanities, Mirrors, Showers)
@@ -950,42 +944,42 @@ function createBathroomSet(cx, cz) {
 
   groups.amenities.add(g);
 }
-createBathroomSet(8.5, 18.5); // Bath 1 (Ensuite or Public 1)
-createBathroomSet(8.5, 23.5); // Bath 2 (Common or Public 2)
+createBathroomSet(8.5, 16.5); // Bath 1 (Ensuite or Public 1)
+createBathroomSet(8.5, 21.5); // Bath 2 (Common or Public 2)
 
-// KITCHEN MAIN COOKING ZONE COUNTERS (x: 0..8, z: 26..34)
+// KITCHEN MAIN COOKING ZONE COUNTERS (x: 0..8, z: 24..33)
 const kitMain = new THREE.Group();
-kitMain.position.set(4.0, 0.44, 30.0);
+kitMain.position.set(4.0, 0.44, 28.5);
 
-// Counter along North wall (z = 26)
-const cNorth = makeBox(kitMain, [6.5, 2.8, 2.0], [0.2, 1.4, -2.8], mat.kitchenCab);
-const topN   = makeBox(kitMain, [6.7, 0.15, 2.2], [0.2, 2.85, -2.8], mat.countertop);
+// Counter along North wall (z = 24)
+const cNorth = makeBox(kitMain, [6.0, 2.8, 2.0], [0.5, 1.4, -3.5], mat.kitchenCab);
+const topN   = makeBox(kitMain, [6.2, 0.15, 2.2], [0.5, 2.85, -3.5], mat.countertop);
 
 // Sink & Gooseneck Faucet
 const sink = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.3, 1.3), mat.chrome);
-sink.position.set(1.5, 2.75, -2.8);
+sink.position.set(1.8, 2.75, -3.5);
 const gooseneck = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.03, 8, 16, Math.PI), mat.chrome);
 gooseneck.rotation.z = Math.PI / 2;
-gooseneck.position.set(1.5, 3.2, -2.8);
+gooseneck.position.set(1.8, 3.2, -3.5);
 kitMain.add(sink, gooseneck);
 
 // Gas Cooking Hob & Extractor Hood
 const hob = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.08, 1.5), mat.frameMetal);
-hob.position.set(-1.6, 2.92, -2.8);
+hob.position.set(-1.2, 2.92, -3.5);
 const hood = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 1.6), mat.chrome);
-hood.position.set(-1.6, 6.5, -2.8);
+hood.position.set(-1.2, 6.5, -3.5);
 kitMain.add(hob, hood);
 
-// Stainless Double-Door Refrigerator (placed along west wall, well clear of window and yard door)
-const fridge = new THREE.Mesh(new THREE.BoxGeometry(2.6, 6.5, 2.5), mat.chrome);
-fridge.position.set(-2.5, 3.25, 2.0);
+// Stainless Double-Door Refrigerator (placed against North-East wooden store partition — 100% UNBLOCKS West Yard Door!)
+const fridge = new THREE.Mesh(new THREE.BoxGeometry(2.2, 6.5, 2.4), mat.chrome);
+fridge.position.set(2.5, 3.25, -2.0);
 kitMain.add(fridge);
 
 groups.amenities.add(kitMain);
 
-// DINING ROOM FURNITURE (x: 0..12, z: 34..42)
+// DINING ROOM FURNITURE (x: 0..12, z: 33..42)
 const dinGroup = new THREE.Group();
-dinGroup.position.set(6.0, 0.44, 38.0);
+dinGroup.position.set(6.0, 0.44, 37.5);
 
 // Solid Dining Table
 makeBox(dinGroup, [5.2, 0.18, 3.2], [0, 2.5, 0], mat.doorWood);
@@ -1683,31 +1677,31 @@ function generateA4SvgString() {
   drawWin(17.0, FP.zS, 24.0, FP.zS);   // Living South Panoramic Win (17)
 
   // West Walls
-  drawWall(FP.xW, FP.zN, FP.xW, FP.zMB); // Master West (16)
-  drawWin(FP.xW, 5.75, FP.xW, 10.25);
+  drawWall(FP.xW, FP.zN, FP.xW, FP.zMB); // Master West (14 ft)
+  drawWin(FP.xW, 4.75, FP.xW, 9.25);      // Master BR West Window
   drawWall(FP.xWC, FP.zMB, FP.xWC, FP.zWC); // Baths West (5+5)
-  drawWin(FP.xWC, 17.25, FP.xWC, 19.75);
-  drawWin(FP.xWC, 22.25, FP.xWC, 24.75);
+  drawWin(FP.xWC, FP.zMB + 1.5, FP.xWC, FP.zMB + 3.5); // Ensuite window
+  drawWin(FP.xWC, FP.zEN + 1.5, FP.xWC, FP.zEN + 3.5); // Common bath window
   drawWall(FP.xW, FP.zMB, FP.xWC, FP.zMB);
   drawWall(FP.xW, FP.zWC, FP.xWC, FP.zWC);
   drawWall(FP.xW, FP.zMB, FP.xW, FP.zWC); // Lightcourt West exterior gap closure
   drawWall(FP.xW, FP.zWC, FP.xW, FP.zS); // Kitchen & Dining West
-  drawWin(FP.xW, 28.0, FP.xW, 31.0);       // Kitchen West Window (clear of yard door)
-  drawDoor(FP.xW, 31.6, 2.8, 'swing-z');   // Kitchen Yard Door (centered at z=33)
-  drawWin(FP.xW, 36.5, FP.xW, 40.5);
+  drawWin(FP.xW, FP.zWC + 1.5, FP.xW, FP.zWC + 5.0);  // Kitchen West Window
+  drawDoor(FP.xW, FP.zWC + 5.5, 2.8, 'swing-z');        // Kitchen Yard Door (z=24+6.5=30.5)
+  drawWin(FP.xW, FP.zK + 2.5, FP.xW, FP.zK + 6.5);    // Dining West Window
 
   // 2. Interior Partitions
   drawWall(FP.xB, FP.zB2, FP.xE, FP.zB2, 'wall-part'); // Bed 02-03 divider
   drawWall(FP.xB, FP.zB3, FP.xE, FP.zB3, 'wall-part'); // Bed 03-Living divider
   drawWall(FP.xB, FP.zN, FP.xB, FP.zB3, 'wall-part');   // Corridor East
-  drawDoor(FP.xB, 8.0, 3.0, 'swing-z');                // Bed 02 door
-  drawDoor(FP.xB, 13.0, 3.0, 'swing-z');               // Bed 03 door
+  drawDoor(FP.xB, 4.5, 3.0, 'swing-z');                  // Bed 02 door (z=6)
+  drawDoor(FP.xB, 16.5, 3.0, 'swing-z');                 // Bed 03 door (z=18)
 
   drawWall(FP.xWC, FP.zEN, FP.xM, FP.zEN, 'wall-part'); // Divider between two washrooms
   drawWall(FP.xW, FP.zWC, FP.xM, FP.zWC, 'wall-part');  // Divider between washroom and kitchen
 
   drawWall(FP.xM, FP.zN, FP.xM, FP.zMB, 'wall-part');  // Corridor West to Master BR
-  drawDoor(FP.xM, 12.0, 3.0, 'swing-z');               // Master BR Door
+  drawDoor(FP.xM, 10.0, 3.0, 'swing-z');                // Master BR Door (z=11.5)
 
   // DYNAMIC CONFIGURATION IN ARCHITECTURAL DRAWING
   if (isEnsuite) {
@@ -1716,14 +1710,14 @@ function generateA4SvgString() {
     drawDoor(7.0, FP.zMB, 2.8, 'swing-x'); // Private door into ensuite
     drawWall(FP.xM, FP.zMB, FP.xM, FP.zEN, 'wall-part'); // Solid hallway wall
     drawWall(FP.xM, FP.zEN, FP.xM, FP.zWC, 'wall-part');
-    drawDoor(FP.xM, 22.0, 2.8, 'swing-z'); // Common bath door
+    drawDoor(FP.xM, FP.zEN + 2.0, 2.8, 'swing-z'); // Common bath door
   } else {
     // Public: Solid wall to bedroom, door to hallway
     drawWall(FP.xW, FP.zMB, FP.xM, FP.zMB, 'wall-part'); // Solid wall
     drawWall(FP.xM, FP.zMB, FP.xM, FP.zEN, 'wall-part');
-    drawDoor(FP.xM, 17.25, 2.8, 'swing-z'); // Public bath 1 door
+    drawDoor(FP.xM, FP.zMB + 1.5, 2.8, 'swing-z'); // Public bath 1 door
     drawWall(FP.xM, FP.zEN, FP.xM, FP.zWC, 'wall-part');
-    drawDoor(FP.xM, 22.0, 2.8, 'swing-z'); // Public bath 2 door
+    drawDoor(FP.xM, FP.zEN + 2.0, 2.8, 'swing-z'); // Public bath 2 door
   }
 
   // Enclosed Kitchen East Wall (Solid)
@@ -1735,7 +1729,7 @@ function generateA4SvgString() {
 
   // KITCHEN WOODEN CABINET SEPARATION (Dotted line from sketch)
   svg += `<line class="joinery-line" x1="${X(FP.xKStore)}" y1="${Y(FP.zWC + 0.3)}" x2="${X(FP.xKStore)}" y2="${Y(FP.zK - 0.3)}"/>`;
-  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(27.5)})" x="${X(FP.xKStore) - 6}" y="${Y(27.5)}">WOODEN JOINERY</text>`;
+  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(28.5)})" x="${X(FP.xKStore) - 6}" y="${Y(28.5)}">WOODEN JOINERY</text>`;
 
   // Veranda
   drawWall(FP.xE, FP.zS, FP.xV, FP.zS, 'wall-part');
@@ -1778,6 +1772,15 @@ function generateA4SvgString() {
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(12)}" y1="${sy}" x2="${X(29)}" y2="${sy}"/><text class="dim-label" text-anchor="middle" x="${X(20.5)}" y="${sy + 13}">17'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(29)}" y1="${sy}" x2="${X(35)}" y2="${sy}"/><text class="dim-label" text-anchor="middle" x="${X(32)}" y="${sy + 13}">6'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${sy + 24}" x2="${X(35)}" y2="${sy + 24}"/><text class="dim-label" text-anchor="middle" x="${X(17.5)}" y="${sy + 37}">35'-0" OVERALL</text>`;
+
+  // Left (West) Chain: 14 | 5 | 5 | 9 | 9 (Overall 42 ft) — strictly matching sketch numbers
+  const wx = X(FP.xW) - 28;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx}" y1="${Y(0)}" x2="${wx}" y2="${Y(14)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 12} ${Y(7)})" x="${wx - 12}" y="${Y(7)}">14'-0"</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx}" y1="${Y(14)}" x2="${wx}" y2="${Y(19)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 12} ${Y(16.5)})" x="${wx - 12}" y="${Y(16.5)}">5'-0"</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx}" y1="${Y(19)}" x2="${wx}" y2="${Y(24)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 12} ${Y(21.5)})" x="${wx - 12}" y="${Y(21.5)}">5'-0"</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx}" y1="${Y(24)}" x2="${wx}" y2="${Y(33)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 12} ${Y(28.5)})" x="${wx - 12}" y="${Y(28.5)}">9'-0"</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx}" y1="${Y(33)}" x2="${wx}" y2="${Y(42)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 12} ${Y(37.5)})" x="${wx - 12}" y="${Y(37.5)}">9'-0"</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${wx - 22}" y1="${Y(0)}" x2="${wx - 22}" y2="${Y(42)}"/><text class="dim-label" text-anchor="middle" transform="rotate(-90 ${wx - 36} ${Y(21)})" x="${wx - 36}" y="${Y(21)}">42'-0" OVERALL</text>`;
 
   // Right (East) Chain: 12 | 12 | 18 (Overall 42 ft)
   const ex = X(FP.xV) + 18;

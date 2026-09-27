@@ -4,6 +4,8 @@
 
 A fully interactive 3D digital twin of a residential property built with **Three.js** and **Vite**. This application brings floor plans to life with dynamic architecture, responsive design, and in-browser blueprint generation.
 
+**[View Live Demo on GitHub Pages](https://The-Agaba.github.io/the_residence/)**
+
 ## ✨ Features
 
 - **Interactive 3D Digital Twin**: Fully realized 3D architecture based on precise dimensions. Walk around, orbit the house, and inspect details.
@@ -24,7 +26,10 @@ A fully interactive 3D digital twin of a residential property built with **Three
 ![Public Baths Layout Mode](screenshots/layout_public_baths.png)
 
 ### A4 Blueprint Generator
-![A4 Blueprint Generator](screenshots/blueprint_a4.png)
+![A4 Blueprint Generator Modal](screenshots/blueprint_modal.png)
+
+### Generated SVG Blueprint
+![Generated Blueprint SVG](screenshots/a4_blueprint.png)
 
 ---
 
