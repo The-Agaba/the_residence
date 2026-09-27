@@ -904,19 +904,21 @@ function createBed(cx, cz, rot, isKing = false) {
 // 1. MASTER BEDROOM (x: 0..12, z: 0..14)
 // Bed placed centrally at cz = 7.0, headboard against north wall
 createBed(6.0, 7.0, 0, true);
-// Wardrobe along west wall (placed at x=1.2, z=11.0) -> Completely inside room!
-makeBox(groups.furniture, [1.4, 7.5, 3.5], [1.2, 0.44 + 3.75, 11.0], mat.doorWood, { name: 'Master Wardrobe' });
+// Wardrobe along west wall (moved to z=12.2 to avoid west window at z=8)
+makeBox(groups.furniture, [1.4, 7.5, 3.0], [1.2, 0.44 + 3.75, 12.2], mat.doorWood, { name: 'Master Wardrobe' });
 
 // 2. BEDROOM 02 (x: 17..29, z: 0..12)
-// Bed placed at cz = 5.5, rot = Math.PI
+// Bed placed at cz = 5.5, rot = Math.PI (headboard south)
 createBed(23.0, 5.5, Math.PI);
-makeBox(groups.furniture, [1.4, 7.2, 3.2], [27.8, 0.44 + 3.6, 6.0], mat.doorWood, { name: 'Bed02 Wardrobe' });
+// Wardrobe moved to the West internal wall to avoid East window
+makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 3.0], mat.doorWood, { name: 'Bed02 Wardrobe' });
 makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 10.8], mat.doorWood, { name: 'Study Desk' });
 
 // 3. BEDROOM 03 (x: 17..29, z: 12..24)
 // Bed placed at cz = 18.0, rot = Math.PI
 createBed(23.0, 18.0, Math.PI);
-makeBox(groups.furniture, [1.4, 7.2, 3.2], [27.8, 0.44 + 3.6, 18.0], mat.doorWood, { name: 'Bed03 Wardrobe' });
+// Wardrobe moved to West internal wall to avoid East window
+makeBox(groups.furniture, [1.4, 7.2, 3.2], [17.7, 0.44 + 3.6, 15.0], mat.doorWood, { name: 'Bed03 Wardrobe' });
 makeBox(groups.furniture, [3.2, 2.4, 1.5], [20.0, 0.44 + 1.2, 22.8], mat.doorWood, { name: 'Study Desk' });
 
 // BATHROOM FIXTURES (Toilets, Vanities, Mirrors, Showers)
@@ -1337,7 +1339,17 @@ function getIntersection(e) {
   return raycaster.intersectObjects(selectable, true)[0];
 }
 
+let pointerDownPos = { x: 0, y: 0 };
 renderer.domElement.addEventListener('pointerdown', (e) => {
+  pointerDownPos.x = e.clientX;
+  pointerDownPos.y = e.clientY;
+});
+
+renderer.domElement.addEventListener('pointerup', (e) => {
+  // If the user dragged to orbit the camera, don't trigger a click!
+  const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+  if (dist > 5) return;
+
   // Measurement tool logic
   if (state.measure) {
     const rect = renderer.domElement.getBoundingClientRect();
