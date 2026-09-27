@@ -372,8 +372,8 @@ const roomsData = [
   { id: 'bed02',  name: 'Bedroom 02',     cx: 23.0, cz: 6.0,  w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'North & East Windows', access: 'Central Hallway' },
   { id: 'bed03',  name: 'Bedroom 03',     cx: 23.0, cz: 18.0, w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'East Window',           access: 'Central Hallway' },
   { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 10.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
-  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 30.5, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
-  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 30.5, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen' },
+  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 29.2, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
+  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 31.8, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen Only' },
   { id: 'dining', name: 'Dining Hall',    cx: 6.0,  cz: 38.0, w: 12.0, d:  8.0, floor: mat.floorTile, type: 'Dining',  dims: "12' × 8'",  sqft: 96,  vent: 'South & West Windows', access: 'Living Room' },
   { id: 'living', name: 'Living Room',    cx: 20.5, cz: 33.0, w: 17.0, d: 18.0, floor: mat.floorTile, type: 'Living',  dims: "17' × 18'", sqft: 306, vent: 'South & East Windows', access: 'Front Veranda' },
   { id: 'veranda',name: 'Front Veranda',  cx: 32.0, cz: 33.0, w:  6.0, d: 18.0, floor: mat.floorPaver,type: 'Outdoor', dims: "6' × 18'",  sqft: 108, vent: 'Open Air Porch',       access: 'Exterior Garden' },
@@ -1692,8 +1692,8 @@ function generateA4SvgString() {
   drawWall(FP.xW, FP.zWC, FP.xWC, FP.zWC);
   drawWall(FP.xW, FP.zMB, FP.xW, FP.zWC); // Lightcourt West exterior gap closure
   drawWall(FP.xW, FP.zWC, FP.xW, FP.zS); // Kitchen & Dining West
-  drawWin(FP.xW, 28.0, FP.xW, 31.5);
-  drawDoor(FP.xW, 32.0, 2.8, 'swing-z'); // Kitchen Yard Door
+  drawWin(FP.xW, 28.0, FP.xW, 31.0);       // Kitchen West Window (clear of yard door)
+  drawDoor(FP.xW, 31.6, 2.8, 'swing-z');   // Kitchen Yard Door (centered at z=33)
   drawWin(FP.xW, 36.5, FP.xW, 40.5);
 
   // 2. Interior Partitions
@@ -1742,15 +1742,26 @@ function generateA4SvgString() {
   drawWall(FP.xV, FP.zB3, FP.xV, FP.zS, 'wall-part');
   drawWall(FP.xE, FP.zB3, FP.xV, FP.zB3, 'wall-part');
 
-  // Room Labels
+  // Room Labels (with special positioning for kitchen/store to avoid overlap)
   roomsData.forEach(r => {
     let rName = r.name;
     if (r.id === 'master') rName = isEnsuite ? 'MASTER BEDROOM' : 'BEDROOM 01';
     else if (r.id === 'ensuite') rName = isEnsuite ? 'MASTER ENSUITE' : 'PUBLIC WASHROOM 01';
     else if (r.id === 'common') rName = isEnsuite ? 'COMMON WASHROOM' : 'PUBLIC WASHROOM 02';
 
-    svg += `<text class="room-title" text-anchor="middle" x="${X(r.cx)}" y="${Y(r.cz)}">${rName.toUpperCase()}</text>`;
-    svg += `<text class="room-area" text-anchor="middle" x="${X(r.cx)}" y="${Y(r.cz) + 12}">${r.dims} (${r.sqft} sqft)</text>`;
+    // Kitchen and Store labels need precise positioning to avoid overlap
+    if (r.id === 'kitchen') {
+      const kx = X(4.0), ky = Y(29.0);
+      svg += `<text class="room-title" text-anchor="middle" font-size="8" x="${kx}" y="${ky}">KITCHEN / JIKO</text>`;
+      svg += `<text class="room-area" text-anchor="middle" font-size="7.5" x="${kx}" y="${ky + 11}">${r.dims} (${r.sqft} sqft)</text>`;
+    } else if (r.id === 'store') {
+      const sx = X(10.0), sy = Y(32.0);
+      svg += `<text class="room-title" text-anchor="middle" font-size="8" x="${sx}" y="${sy}">PANTRY STORE</text>`;
+      svg += `<text class="room-area" text-anchor="middle" font-size="7.5" x="${sx}" y="${sy + 11}">${r.dims} (${r.sqft} sqft)</text>`;
+    } else {
+      svg += `<text class="room-title" text-anchor="middle" x="${X(r.cx)}" y="${Y(r.cz)}">${rName.toUpperCase()}</text>`;
+      svg += `<text class="room-area" text-anchor="middle" x="${X(r.cx)}" y="${Y(r.cz) + 12}">${r.dims} (${r.sqft} sqft)</text>`;
+    }
   });
 
   // Dimension Chains with Ticks (Strictly matching sketch)
