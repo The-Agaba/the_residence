@@ -587,7 +587,7 @@ addWallSeg({ x: FP.xM, z: FP.zWC }, { x: FP.xM, z: FP.zK });
 buildWallWithOpenings(
   { x: FP.xW, z: FP.zK }, { x: FP.xM, z: FP.zK },
   [
-    { pos: 9.5, width: 3.0, type: 'door', id: 'door-kitchen-dining' }, // Entrance into Kitchen FROM DINING ROOM!
+    { pos: 4.5, width: 3.0, type: 'door', id: 'door-kitchen-dining' }, // Entrance into Kitchen FROM DINING ROOM!
   ]
 );
 
@@ -783,7 +783,7 @@ createDoor('d-bed02',   'Bedroom 02 Door',        FP.xB, FP.zN + 9.5,  -Math.PI 
 createDoor('d-bed03',   'Bedroom 03 Door',        FP.xB, FP.zN + 14.5, -Math.PI / 2, 3.0,  Math.PI / 2.2);
 createDoor('d-common',  'Common Washroom Door',   FP.xM, FP.zEN + 2.5,  Math.PI / 2, 2.8, -Math.PI / 2.2);
 createDoor('d-kyard',   'Kitchen Yard Door',      FP.xW, FP.zWC + 7.0,  Math.PI / 2, 2.8,  Math.PI / 2.2);
-createDoor('d-kdining', 'Kitchen Dining Door',    9.5,   FP.zK,         0,           3.0, -Math.PI / 2.2);
+createDoor('d-kdining', 'Kitchen Dining Door',    4.5,   FP.zK,         0,           3.0, -Math.PI / 2.2);
 
 // Configurable Doors
 // Ensuite Private Door (in groupEnsuite)
@@ -1731,7 +1731,7 @@ function generateA4SvgString() {
 
   // Kitchen - Dining Partition Wall with Dining Doorway
   drawWall(FP.xW, FP.zK, FP.xM, FP.zK, 'wall-part');
-  drawDoor(8.0, FP.zK, 3.0, 'swing-x'); // Kitchen entrance via Dining Room!
+  drawDoor(3.0, FP.zK, 3.0, 'swing-x'); // Kitchen entrance via Dining Room!
 
   // KITCHEN WOODEN CABINET SEPARATION (Dotted line from sketch)
   svg += `<line class="joinery-line" x1="${X(FP.xKStore)}" y1="${Y(FP.zWC + 0.3)}" x2="${X(FP.xKStore)}" y2="${Y(FP.zK - 0.3)}"/>`;
