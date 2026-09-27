@@ -538,8 +538,7 @@ buildWallWithOpenings(
 );
 addWallSeg({ x: FP.xW, z: FP.zMB }, { x: FP.xWC, z: FP.zMB });
 addWallSeg({ x: FP.xW, z: FP.zWC }, { x: FP.xWC, z: FP.zWC });
-// WEST EXTERIOR WALL across bathroom ventilation area (closes the gap!)
-addWallSeg({ x: FP.xW, z: FP.zMB }, { x: FP.xW, z: FP.zWC });
+// The bathroom-side ventilation gap remains open behind the toilets.
 
 // Kitchen & Dining West Wall (x: 0, z: 26 → 42)
 buildWallWithOpenings(
@@ -1749,7 +1748,6 @@ function generateA4SvgString() {
   drawWin(FP.xWC, FP.zEN + 1.5, FP.xWC, FP.zEN + 3.5); // Common bath window
   drawWall(FP.xW, FP.zMB, FP.xWC, FP.zMB);
   drawWall(FP.xW, FP.zWC, FP.xWC, FP.zWC);
-  drawWall(FP.xW, FP.zMB, FP.xW, FP.zWC); // Lightcourt West exterior gap closure
   drawWall(FP.xW, FP.zWC, FP.xW, FP.zS); // Kitchen & Dining West
   drawWin(FP.xW, FP.zWC + 1.5, FP.xW, FP.zWC + 5.0);  // Kitchen West Window
   drawDoor(FP.xW, FP.zWC + 5.5, 2.8, 'swing-z');        // Kitchen Yard Door (z=24+6.5=30.5)
