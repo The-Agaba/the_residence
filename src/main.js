@@ -1138,6 +1138,30 @@ function createGableRoof() {
   );
   gapCover.geometry.computeVertexNormals();
 
+  // Close the triangular gable ends so the wall line meets the roof ridge.
+  // These are roof-dependent structural infills and appear with the roof
+  // layer, preventing the large open triangles visible from either end.
+  const gableMaterial = mat.wallExt.clone();
+  gableMaterial.side = THREE.DoubleSide;
+  const northGable = new THREE.Mesh(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x1, eaveY, z1),
+      new THREE.Vector3(x2, eaveY, z1),
+      new THREE.Vector3(cx, ridgeY, z1),
+    ]),
+    gableMaterial
+  );
+  const southGable = new THREE.Mesh(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x1, eaveY, z2),
+      new THREE.Vector3(cx, ridgeY, z2),
+      new THREE.Vector3(x2, eaveY, z2),
+    ]),
+    gableMaterial
+  );
+  northGable.geometry.computeVertexNormals();
+  southGable.geometry.computeVertexNormals();
+
   // Add flat ceiling for the interior
   const ceiling = new THREE.Mesh(
     new THREE.PlaneGeometry(x2 - x1, z2 - z1),
@@ -1147,7 +1171,7 @@ function createGableRoof() {
   ceiling.position.set(cx, 0.4 + WALL_H, (z1 + z2) / 2);
   ceiling.receiveShadow = true;
 
-  groups.roof.add(leftSlope, rightSlope, verSlope, gapCover, ceiling);
+  groups.roof.add(leftSlope, rightSlope, verSlope, gapCover, northGable, southGable, ceiling);
 }
 createGableRoof();
 
