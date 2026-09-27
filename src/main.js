@@ -198,23 +198,30 @@ const mat = {
   cabinetWood:new THREE.MeshStandardMaterial({ color: 0x9a6538, roughness: 0.55 }), // Wooden partition/joinery
   frameMetal: new THREE.MeshStandardMaterial({ color: 0x222a2a, metalness: 0.5, roughness: 0.4 }),
 
-  // TRANSPARENT WINDOW GLASS (Crystal clear with depthWrite: false so interior is always visible!)
+  // TRANSPARENT WINDOW GLASS (Translucent tinted glass for privacy)
   glass: new THREE.MeshStandardMaterial({
-    color: 0xebf8fa,
+    color: 0xc2dfdd,
     transparent: true,
-    opacity: 0.22,
-    roughness: 0.05,
-    metalness: 0.1,
+    opacity: 0.75,
+    roughness: 0.3,
+    metalness: 0.2,
     depthWrite: false,
     side: THREE.DoubleSide
   }),
   frostedGlass: new THREE.MeshStandardMaterial({
     color: 0xd6f0f5,
     transparent: true,
-    opacity: 0.55,
-    roughness: 0.5,
+    opacity: 0.85,
+    roughness: 0.6,
     depthWrite: false,
     side: THREE.DoubleSide
+  }),
+
+  // Sliding Aluminum Window Frame
+  aluFrame: new THREE.MeshStandardMaterial({
+    color: 0xd0d5d9,
+    metalness: 0.8,
+    roughness: 0.3
   }),
 
   brass:      new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.85, roughness: 0.25 }),
@@ -797,7 +804,7 @@ function createWindow(id, name, x, z, angle, width, height = WIN_H, isFrosted = 
   group.position.set(x, 0.4 + WIN_SILL, z);
   group.rotation.y = angle;
 
-  const frameMat = mat.frameMetal;
+  const frameMat = mat.aluFrame;
   const glassMat = isFrosted ? mat.frostedGlass : mat.glass;
 
   // Outer Window Frame
@@ -847,20 +854,20 @@ function createWindow(id, name, x, z, angle, width, height = WIN_H, isFrosted = 
   return winData;
 }
 
-// Windows
+// Windows (Aligned perfectly with wall openings)
 createWindow('w-m-n',  'Master BR North Window', 6.0,  FP.zN,  0, 4.5);
-createWindow('w-m-w',  'Master BR West Window',  FP.xW, 7.0,   Math.PI/2, 4.5);
+createWindow('w-m-w',  'Master BR West Window',  FP.xW, 8.0,   Math.PI/2, 4.5); // was 7.0, wall is 8.0
 createWindow('w-h-n',  'Hallway Vent Window',    14.5, FP.zN,  0, 2.5);
 createWindow('w-b2-n', 'Bed 02 North Window',    23.0, FP.zN,  0, 4.5);
-createWindow('w-b2-e', 'Bed 02 East Window',     FP.xE,6.0,    Math.PI/2, 4.5);
-createWindow('w-b3-e', 'Bed 03 East Window',     FP.xE,18.0,   Math.PI/2, 4.5);
+createWindow('w-b2-e', 'Bed 02 East Window',     FP.xE, 6.0,   Math.PI/2, 4.5);
+createWindow('w-b3-e', 'Bed 03 East Window',     FP.xE, 18.0,  Math.PI/2, 4.5);
 createWindow('w-ens',  'Ensuite Frosted Window', FP.xWC, FP.zMB + 2.5, Math.PI/2, 2.5, 3.0, true);
 createWindow('w-com',  'Common Frosted Window',  FP.xWC, FP.zMB + 7.5, Math.PI/2, 2.5, 3.0, true);
-createWindow('w-kit-w','Kitchen West Window',    FP.xW,FP.zWC + 3.0, Math.PI/2, 3.5);
-createWindow('w-din-w','Dining West Window',     FP.xW,FP.zWC + 13.5, Math.PI/2, 4.0);
+createWindow('w-kit-w','Kitchen West Window',    FP.xW, FP.zWC + 3.5, Math.PI/2, 4.0); // was 3.0/3.5, wall is 3.5/4.0
+createWindow('w-din-w','Dining West Window',     FP.xW, FP.zWC + 12.5, Math.PI/2, 4.0); // was 13.5, wall is 12.5
 createWindow('w-din-s','Dining South Window',    6.0,  FP.zS,  0, 5.0);
 createWindow('w-liv-s','Living Panoramic Window',20.5, FP.zS,  0, 7.0);
-createWindow('w-liv-e','Living East Window',     FP.xE,FP.zB3 + 9.0, Math.PI/2, 4.5);
+createWindow('w-liv-e','Living East Window',     FP.xE, FP.zB3 + 14.5, Math.PI/2, 4.5); // was 9.0, wall is 14.5
 
 // ─────────────────────── REALISTIC FURNITURE (NO WALL PENETRATION) ────────────
 function createBed(cx, cz, rot, isKing = false) {
@@ -1104,7 +1111,16 @@ function createGableRoof() {
   );
   verSlope.geometry.computeVertexNormals();
 
-  groups.roof.add(leftSlope, rightSlope, verSlope);
+  // Add flat ceiling for the interior
+  const ceiling = new THREE.Mesh(
+    new THREE.PlaneGeometry(x2 - x1, z2 - z1),
+    mat.wallInt
+  );
+  ceiling.rotation.x = Math.PI / 2; // Face downwards for interior view
+  ceiling.position.set(cx, 0.4 + WALL_H, (z1 + z2) / 2);
+  ceiling.receiveShadow = true;
+
+  groups.roof.add(leftSlope, rightSlope, verSlope, ceiling);
 }
 createGableRoof();
 
