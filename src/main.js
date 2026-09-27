@@ -1482,8 +1482,16 @@ function canMove(x, z) {
 function updateWalk(dt) {
   if (state.view !== 'walk') return;
 
-  const fwd = new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw));
-  const rgt = new THREE.Vector3(Math.cos(yaw), 0,  Math.sin(yaw));
+  // Use the same orientation that the camera renders. This keeps W/S/A/D
+  // and the touch arrows consistent after looking around or changing rooms.
+  const fwd = new THREE.Vector3();
+  camera.getWorldDirection(fwd);
+  fwd.y = 0;
+  fwd.normalize();
+
+  // Camera-right is forward × world-up. Keeping this derived from `fwd`
+  // prevents left/right from becoming mirrored at different yaw angles.
+  const rgt = new THREE.Vector3().crossVectors(fwd, new THREE.Vector3(0, 1, 0)).normalize();
   const moveDir = new THREE.Vector3();
 
   if (activeKeys.has('w')) moveDir.add(fwd);
