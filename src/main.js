@@ -1117,6 +1117,27 @@ function createGableRoof() {
   );
   verSlope.geometry.computeVertexNormals();
 
+  // Dedicated infill over the bathroom-side ventilation gap. Keep this as a
+  // separate panel so the open lightcourt remains open at wall level while
+  // the roof layer still covers it from above.
+  const gapX1 = x1 - 0.05;
+  const gapX2 = FP.xWC + 0.65;
+  const gapZ1 = FP.zMB - 0.55;
+  const gapZ2 = FP.zWC + 0.55;
+  const roofYAt = x => eaveY + ((x - x1) / (cx - x1)) * (ridgeY - eaveY) + 0.06;
+  const gapCover = new THREE.Mesh(
+    new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(gapX1, roofYAt(gapX1), gapZ1),
+      new THREE.Vector3(gapX2, roofYAt(gapX2), gapZ1),
+      new THREE.Vector3(gapX2, roofYAt(gapX2), gapZ2),
+      new THREE.Vector3(gapX1, roofYAt(gapX1), gapZ1),
+      new THREE.Vector3(gapX2, roofYAt(gapX2), gapZ2),
+      new THREE.Vector3(gapX1, roofYAt(gapX1), gapZ2),
+    ]),
+    mat.roofTile
+  );
+  gapCover.geometry.computeVertexNormals();
+
   // Add flat ceiling for the interior
   const ceiling = new THREE.Mesh(
     new THREE.PlaneGeometry(x2 - x1, z2 - z1),
@@ -1126,7 +1147,7 @@ function createGableRoof() {
   ceiling.position.set(cx, 0.4 + WALL_H, (z1 + z2) / 2);
   ceiling.receiveShadow = true;
 
-  groups.roof.add(leftSlope, rightSlope, verSlope, ceiling);
+  groups.roof.add(leftSlope, rightSlope, verSlope, gapCover, ceiling);
 }
 createGableRoof();
 
