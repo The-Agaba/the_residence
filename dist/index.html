@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0e1718" />
+    <meta name="description" content="Interactive architectural digital twin and measured floor plan workspace." />
+    <link rel="manifest" href="/assets/manifest-CrGx-v2b.webmanifest" />
+    <title>The Residence / Digital Twin</title>
+    <script type="module" crossorigin src="/assets/index-ZRWZi1UQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CXboBHIe.css">
+  </head>
+  <body>
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">⌂</span>
+        <div>
+          <strong>The Residence</strong>
+          <small>Digital Twin Workspace</small>
+        </div>
+      </div>
+
+      <!-- Layout Mode Toggle (Master Ensuite vs 2 Public Baths) -->
+      <div class="layout-toggle-container" role="group" aria-label="Floor plan configuration">
+        <span class="toggle-label">Layout:</span>
+        <div class="toggle-pill-group">
+          <button id="btnLayoutEnsuite" class="toggle-pill active" title="Master Bedroom has private attached bath">
+            Master Ensuite
+          </button>
+          <button id="btnLayoutPublic" class="toggle-pill" title="Standard bedrooms with 2 public hallway washrooms">
+            2 Public Baths
+          </button>
+        </div>
+      </div>
+
+      <div class="header-meta">
+        <span class="status-dot"></span>
+        <span id="currentConfigBadge">Ensuite Config</span>
+        <span class="divider"></span>
+        <span>Scale 1:100</span>
+      </div>
+
+      <div class="header-actions">
+        <button id="previewMap" class="button ghost" title="Preview A4 Architectural Blueprint">👁 Preview A4</button>
+        <button id="exportMap" class="button primary" title="Download High-Resolution A4 Vector SVG">↧ Download A4 Map</button>
+        <button id="resetView" class="button ghost" title="Reset Camera View">↺ Reset View</button>
+        <button id="btnMenuToggle" class="button menu-toggle" aria-label="Toggle Controls Menu">☰ Menu</button>
+      </div>
+    </header>
+
+    <!-- Main Application Shell -->
+    <main class="app-shell">
+      <!-- Sidebar / Controls Panel -->
+      <nav id="sidebarPanel" class="sidebar left-panel" aria-label="Interactive Controls">
+        <div class="panel-header-mobile">
+          <strong>House Controls</strong>
+          <button id="btnCloseDrawer" class="close-drawer-btn" aria-label="Close menu">✕</button>
+        </div>
+
+        <div class="panel-group">
+          <div class="section-title">Camera &amp; View Mode</div>
+          <div class="mode-tabs">
+            <button class="mode active" data-view="orbit" id="modeOrbit">Orbit 3D</button>
+            <button class="mode" data-view="walk" id="modeWalk">Walk Mode</button>
+            <button class="mode" data-view="top" id="modePlan">2D Plan</button>
+          </div>
+        </div>
+
+        <div class="panel-group">
+          <div class="section-title">House Presets</div>
+          <div class="preset-tabs">
+            <button id="finishedPreset" class="preset-btn active">Finished House</button>
+            <button id="barePreset" class="preset-btn">Bare Walls</button>
+            <button id="roofPreset" class="preset-btn">Roof View</button>
+          </div>
+        </div>
+
+        <div class="panel-group">
+          <div class="section-title">Quick Operations</div>
+          <div class="action-grid">
+            <button id="btnToggleWindows" class="action-pill">
+              <span class="icon">◫</span> <span id="labelToggleWindows">Open Windows</span>
+            </button>
+            <button id="btnToggleDoors" class="action-pill">
+              <span class="icon">🚪</span> <span id="labelToggleDoors">Open Doors</span>
+            </button>
+            <button id="btnToggleLighting" class="action-pill">
+              <span class="icon">💡</span> <span id="labelToggleLighting">Night Lights</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-group">
+          <div class="section-title">Tools</div>
+          <div class="tools-list">
+            <button id="measureBtn" class="tool-row">
+              <span class="tool-icon">＋</span>
+              <span class="tool-text">
+                <b>Measure distance</b>
+                <small>Click two points in 3D or 2D</small>
+              </span>
+              <kbd>M</kbd>
+            </button>
+            <button id="labelsBtn" class="tool-row">
+              <span class="tool-icon">⌖</span>
+              <span class="tool-text">
+                <b>Room labels</b>
+                <small>Toggle names and dimensions</small>
+              </span>
+              <kbd>L</kbd>
+            </button>
+          </div>
+        </div>
+
+        <section class="panel-group">
+          <div class="section-title">
+            <span>Visibility Layers</span>
+            <small class="hint-small">Keys 1–9</small>
+          </div>
+          <div id="layers" class="layer-list"></div>
+        </section>
+
+        <!-- Room Inspector Card -->
+        <section id="roomCard" class="room-inspect-card hidden">
+          <div class="card-header">
+            <span class="badge" id="cardRoomType">ROOM</span>
+            <button id="btnCloseCard" class="card-close">✕</button>
+          </div>
+          <h3 id="cardRoomTitle">Master Bedroom</h3>
+          <p id="cardRoomDims" class="dims-highlight">12' × 16' (192 sq ft)</p>
+          <div class="details-grid">
+            <div><span>Ventilation</span><b id="cardVent">North &amp; West Windows</b></div>
+            <div><span>Access</span><b id="cardAccess">Hallway</b></div>
+            <div><span>Flooring</span><b id="cardFloor">Oak Hardwood</b></div>
+            <div><span>Status</span><b id="cardStatus">Ensuite Access</b></div>
+          </div>
+        </section>
+
+        <div class="survey-note">
+          <span class="info-badge">i</span>
+          <div>
+            <b>Architectural Reference</b>
+            <p>Faithful digital twin aligned directly with client sketch. Enclosed kitchen with pantry cabinetry.</p>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 3D Canvas Stage & On-screen HUD -->
+      <section class="stage-wrap">
+        <div id="stage"></div>
+
+        <!-- Top Left View Chip -->
+        <div class="stage-chrome top-left">
+          <span class="chip">LIVE MODEL</span>
+          <span id="viewLabel">Orbit 3D View</span>
+          <span id="activeConfigTag" class="config-tag">Master Ensuite Plan</span>
+        </div>
+
+        <!-- Bottom Left Orientation & Scale -->
+        <div class="stage-chrome bottom-left">
+          <span class="north" title="North orientation">N</span>
+          <span class="scale-bar">
+            <i></i>
+            <b>5 ft (1.5m)</b>
+          </span>
+        </div>
+
+        <!-- Live Measurement Readout -->
+        <div id="measureReadout" class="measure-readout hidden"></div>
+
+        <!-- Interaction Helper Hint -->
+        <div id="hint" class="hint">
+          Orbit: drag &amp; scroll · Walk: WASD + mouse look · Click doors/windows to open
+        </div>
+
+        <!-- Mobile Walk Controls D-Pad -->
+        <div id="mobileControls" class="mobile-controls" aria-label="Touch Walk Controls">
+          <button data-mobile-key="w" aria-label="Move forward">▲</button>
+          <div class="dpad-middle">
+            <button data-mobile-key="a" aria-label="Move left">◀</button>
+            <button data-mobile-key="s" aria-label="Move backward">▼</button>
+            <button data-mobile-key="d" aria-label="Move right">▶</button>
+          </div>
+          <small>Drag screen to look around</small>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Footer Bar -->
+    <footer class="footer">
+      <span>© 2026 The Residence</span>
+      <span id="footerLayoutDesc">Current: Master Ensuite Layout (Private Bath)</span>
+      <span class="shortcut-tip">Shortcuts: WASD Walk · M Measure · L Labels · E Interact · 1-9 Layers</span>
+    </footer>
+
+    <!-- A4 Blueprint Preview Modal -->
+    <div id="blueprintModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div>
+            <h2 id="modalTitle">A4 Architectural Floor Plan Preview</h2>
+            <p id="modalSubtitle" class="modal-sub">Scaled 1:100 · Vector High-Resolution Blueprint</p>
+          </div>
+          <div class="modal-header-actions">
+            <button id="modalDownloadBtn" class="button primary">↧ Download Vector SVG</button>
+            <button id="modalPrintBtn" class="button ghost">🖨 Print / PDF</button>
+            <button id="modalCloseBtn" class="button ghost">✕ Close</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="blueprintContainer" class="blueprint-preview-frame"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script Entry -->
+  </body>
+</html>
