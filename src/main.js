@@ -371,7 +371,7 @@ const roomsData = [
   { id: 'common', name: 'Common Washroom',cx: 8.5,  cz: 23.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Central Hallway' },
   { id: 'bed02',  name: 'Bedroom 02',     cx: 23.0, cz: 6.0,  w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'North & East Windows', access: 'Central Hallway' },
   { id: 'bed03',  name: 'Bedroom 03',     cx: 23.0, cz: 18.0, w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'East Window',           access: 'Central Hallway' },
-  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 16.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
+  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 10.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
   { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 30.5, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
   { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 30.5, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen' },
   { id: 'dining', name: 'Dining Hall',    cx: 6.0,  cz: 38.0, w: 12.0, d:  8.0, floor: mat.floorTile, type: 'Dining',  dims: "12' × 8'",  sqft: 96,  vent: 'South & West Windows', access: 'Living Room' },
@@ -1606,7 +1606,7 @@ document.querySelectorAll('[data-mobile-key]').forEach(btn => {
 
 // ─────────────────────── HIGH-RES A4 ARCHITECTURAL SVG GENERATOR ──────────────
 function generateA4SvgString() {
-  const W = 1188, H = 840, S = 16, OX = 200, OY = 140;
+  const W = 1188, H = 840, S = 14.5, OX = 180, OY = 140;
   const X = x => OX + x * S, Y = z => OY + z * S;
   const isEnsuite = (state.layoutMode === 'ensuite');
 
@@ -1633,7 +1633,7 @@ function generateA4SvgString() {
     .joinery-line { stroke: #8a5534; stroke-width: 2.5; stroke-dasharray: 4,4; fill: none; }
     .dim-line { stroke: #3b5350; stroke-width: 1.0; fill: none; }
     .dim-label { font-size: 9.5px; font-weight: 700; fill: #1f3532; }
-    .room-title { font-size: 11px; font-weight: 800; letter-spacing: 0.6px; fill: #0f1c1a; }
+    .room-title { font-size: 9px; font-weight: 800; letter-spacing: 0.6px; fill: #0f1c1a; }
     .room-area { font-size: 8.5px; font-weight: 600; fill: #526864; }
     .title-hdr { font-size: 20px; font-weight: 800; letter-spacing: 1.2px; fill: #0f1c1a; }
     .title-sub { font-size: 9.5px; font-weight: 500; fill: #5b6f6b; letter-spacing: 0.8px; }
@@ -1735,7 +1735,7 @@ function generateA4SvgString() {
 
   // KITCHEN WOODEN CABINET SEPARATION (Dotted line from sketch)
   svg += `<line class="joinery-line" x1="${X(FP.xKStore)}" y1="${Y(FP.zWC + 0.3)}" x2="${X(FP.xKStore)}" y2="${Y(FP.zK - 0.3)}"/>`;
-  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(31.5)})" x="${X(FP.xKStore) - 6}" y="${Y(31.5)}">WOODEN JOINERY</text>`;
+  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(27.5)})" x="${X(FP.xKStore) - 6}" y="${Y(27.5)}">WOODEN JOINERY</text>`;
 
   // Veranda
   drawWall(FP.xE, FP.zS, FP.xV, FP.zS, 'wall-part');
@@ -1755,7 +1755,7 @@ function generateA4SvgString() {
 
   // Dimension Chains with Ticks (Strictly matching sketch)
   // North Chain: 12 | 5 | 12 (Overall 29 ft)
-  const ny = Y(FP.zN) - 24;
+  const ny = Y(FP.zN) - 30;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${ny}" x2="${X(12)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(6)}" y="${ny - 5}">12'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(12)}" y1="${ny}" x2="${X(17)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(14.5)}" y="${ny - 5}">5'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(17)}" y1="${ny}" x2="${X(29)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(23)}" y="${ny - 5}">12'-0"</text>`;
@@ -1822,7 +1822,7 @@ function generateA4SvgString() {
     <text font-size="8" x="120" y="-3">20 FT</text>
   </g>
 
-  <text class="title-sub" x="50" y="808">CONFIDENTIAL &amp; PROPRIETARY · ARCHITECTURAL RECORD DRAWING · FIELD VERIFY ALL STRUCTURAL ELEMENTS PRIOR TO CONSTRUCTION</text>
+  <text class="title-sub" x="50" y="820">CONFIDENTIAL &amp; PROPRIETARY · ARCHITECTURAL RECORD DRAWING · FIELD VERIFY ALL STRUCTURAL ELEMENTS PRIOR TO CONSTRUCTION</text>
 </svg>
 `;
   return svg;
