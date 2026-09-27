@@ -983,9 +983,10 @@ const hood = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 1.6), mat.chrome);
 hood.position.set(-1.2, 6.5, -3.5);
 kitMain.add(hob, hood);
 
-// Stainless Double-Door Refrigerator (placed against North-East wooden store partition — 100% UNBLOCKS West Yard Door!)
+  // Stainless Double-Door Refrigerator. Keep it in the south-west kitchen
+  // zone so it cannot obstruct the pantry opening or its door swing.
 const fridge = new THREE.Mesh(new THREE.BoxGeometry(2.2, 6.5, 2.4), mat.chrome);
-fridge.position.set(2.5, 3.25, -2.0);
+  fridge.position.set(-1.5, 3.25, 3.0);
 kitMain.add(fridge);
 
 groups.amenities.add(kitMain);
