@@ -928,29 +928,31 @@ function createBathroomSet(cx, cz) {
   const g = new THREE.Group();
   g.position.set(cx, 0.44, cz);
 
-  // Modern Toilet (Choo)
+  // Keep the entry side clear in both layouts. The two bathrooms share this
+  // fixture set, while their doors enter from different sides.
+  // Modern Toilet (Choo), placed toward the far/north-west corner.
   const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.4, 1.3, 16), mat.porcelain);
-  pan.position.set(-1.8, 0.65, 1.0);
+  pan.position.set(-1.8, 0.65, 1.35);
   const tank = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.4, 0.6), mat.porcelain);
-  tank.position.set(-1.8, 1.5, 1.6);
+  tank.position.set(-1.8, 1.5, 1.95);
   g.add(pan, tank);
 
-  // Floating Vanity Sink & Mirror
+  // Floating Vanity Sink & Mirror, shifted away from the east-side public doors.
   const vanity = new THREE.Mesh(new THREE.BoxGeometry(2.0, 2.2, 1.4), mat.kitchenCab);
-  vanity.position.set(1.4, 1.1, 1.4);
+  vanity.position.set(1.05, 1.1, 1.45);
   const basin = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.35, 1.1), mat.porcelain);
-  basin.position.set(1.4, 2.25, 1.4);
+  basin.position.set(1.05, 2.25, 1.45);
   const faucet = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.45, 8), mat.chrome);
-  faucet.position.set(1.4, 2.65, 1.7);
+  faucet.position.set(1.05, 2.65, 1.75);
   const mirror = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.6, 0.05), new THREE.MeshStandardMaterial({ color: 0xccdede, roughness: 0.05, metalness: 0.9 }));
-  mirror.position.set(1.4, 4.1, 2.05);
+  mirror.position.set(1.05, 4.1, 2.1);
   g.add(vanity, basin, faucet, mirror);
 
-  // Glass Shower enclosure
+  // Glass Shower enclosure stays in the rear half, outside the door swing.
   const showerGlass = new THREE.Mesh(new THREE.BoxGeometry(0.08, 6.5, 2.4), mat.glass);
-  showerGlass.position.set(-0.2, 3.25, -1.0);
+  showerGlass.position.set(-0.2, 3.25, 0.55);
   const showerHead = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.05, 16), mat.chrome);
-  showerHead.position.set(-1.6, 6.2, -1.0);
+  showerHead.position.set(-1.6, 6.2, 0.55);
   g.add(showerGlass, showerHead);
 
   groups.amenities.add(g);
