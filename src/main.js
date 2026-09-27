@@ -371,9 +371,9 @@ const roomsData = [
   { id: 'common', name: 'Common Washroom',cx: 8.5,  cz: 23.5, w:  7.0, d:  5.0, floor: mat.floorBath, type: 'Bath',    dims: "7' × 5'",   sqft: 35,  vent: 'West Frosted Window', access: 'Central Hallway' },
   { id: 'bed02',  name: 'Bedroom 02',     cx: 23.0, cz: 6.0,  w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'North & East Windows', access: 'Central Hallway' },
   { id: 'bed03',  name: 'Bedroom 03',     cx: 23.0, cz: 18.0, w: 12.0, d: 12.0, floor: mat.floorWood, type: 'Bedroom', dims: "12' × 12'", sqft: 144, vent: 'East Window',           access: 'Central Hallway' },
-  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 12.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
-  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 30.0, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
-  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 30.0, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen' },
+  { id: 'hall',   name: 'Central Hallway',cx: 14.5, cz: 16.0, w:  5.0, d: 24.0, floor: mat.floorTile, type: 'Circ',    dims: "5' × 24'",  sqft: 120, vent: 'North Vent Window',     access: 'Direct' },
+  { id: 'kitchen',name: 'Kitchen / Jiko', cx: 4.0,  cz: 30.5, w:  8.0, d:  8.0, floor: mat.floorKit,  type: 'Kitchen', dims: "8' × 8'",   sqft: 64,  vent: 'West Window & Yard Door', access: 'Dining Room (Enclosed)' },
+  { id: 'store',  name: 'Pantry Store',   cx: 10.0, cz: 30.5, w:  4.0, d:  8.0, floor: mat.floorKit,  type: 'Store',   dims: "4' × 8'",   sqft: 32,  vent: 'Internal Joinery',      access: 'Within Kitchen' },
   { id: 'dining', name: 'Dining Hall',    cx: 6.0,  cz: 38.0, w: 12.0, d:  8.0, floor: mat.floorTile, type: 'Dining',  dims: "12' × 8'",  sqft: 96,  vent: 'South & West Windows', access: 'Living Room' },
   { id: 'living', name: 'Living Room',    cx: 20.5, cz: 33.0, w: 17.0, d: 18.0, floor: mat.floorTile, type: 'Living',  dims: "17' × 18'", sqft: 306, vent: 'South & East Windows', access: 'Front Veranda' },
   { id: 'veranda',name: 'Front Veranda',  cx: 32.0, cz: 33.0, w:  6.0, d: 18.0, floor: mat.floorPaver,type: 'Outdoor', dims: "6' × 18'",  sqft: 108, vent: 'Open Air Porch',       access: 'Exterior Garden' },
@@ -1606,7 +1606,7 @@ document.querySelectorAll('[data-mobile-key]').forEach(btn => {
 
 // ─────────────────────── HIGH-RES A4 ARCHITECTURAL SVG GENERATOR ──────────────
 function generateA4SvgString() {
-  const W = 1188, H = 840, S = 17, OX = 115, OY = 110;
+  const W = 1188, H = 840, S = 16, OX = 200, OY = 140;
   const X = x => OX + x * S, Y = z => OY + z * S;
   const isEnsuite = (state.layoutMode === 'ensuite');
 
@@ -1690,6 +1690,7 @@ function generateA4SvgString() {
   drawWin(FP.xWC, 22.25, FP.xWC, 24.75);
   drawWall(FP.xW, FP.zMB, FP.xWC, FP.zMB);
   drawWall(FP.xW, FP.zWC, FP.xWC, FP.zWC);
+  drawWall(FP.xW, FP.zMB, FP.xW, FP.zWC); // Lightcourt West exterior gap closure
   drawWall(FP.xW, FP.zWC, FP.xW, FP.zS); // Kitchen & Dining West
   drawWin(FP.xW, 28.0, FP.xW, 31.5);
   drawDoor(FP.xW, 32.0, 2.8, 'swing-z'); // Kitchen Yard Door
@@ -1734,7 +1735,7 @@ function generateA4SvgString() {
 
   // KITCHEN WOODEN CABINET SEPARATION (Dotted line from sketch)
   svg += `<line class="joinery-line" x1="${X(FP.xKStore)}" y1="${Y(FP.zWC + 0.3)}" x2="${X(FP.xKStore)}" y2="${Y(FP.zK - 0.3)}"/>`;
-  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(30)})" x="${X(FP.xKStore) - 6}" y="${Y(30)}">WOODEN CABINET / STORE DIVIDER</text>`;
+  svg += `<text font-size="7.5" fill="#8a5534" font-weight="700" transform="rotate(-90 ${X(FP.xKStore) - 6} ${Y(31.5)})" x="${X(FP.xKStore) - 6}" y="${Y(31.5)}">WOODEN JOINERY</text>`;
 
   // Veranda
   drawWall(FP.xE, FP.zS, FP.xV, FP.zS, 'wall-part');
@@ -1754,18 +1755,18 @@ function generateA4SvgString() {
 
   // Dimension Chains with Ticks (Strictly matching sketch)
   // North Chain: 12 | 5 | 12 (Overall 29 ft)
-  const ny = Y(FP.zN) - 18;
+  const ny = Y(FP.zN) - 24;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${ny}" x2="${X(12)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(6)}" y="${ny - 5}">12'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(12)}" y1="${ny}" x2="${X(17)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(14.5)}" y="${ny - 5}">5'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(17)}" y1="${ny}" x2="${X(29)}" y2="${ny}"/><text class="dim-label" text-anchor="middle" x="${X(23)}" y="${ny - 5}">12'-0"</text>`;
-  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${ny - 18}" x2="${X(29)}" y2="${ny - 18}"/><text class="dim-label" text-anchor="middle" x="${X(14.5)}" y="${ny - 23}">29'-0" OVERALL</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${ny - 20}" x2="${X(29)}" y2="${ny - 20}"/><text class="dim-label" text-anchor="middle" x="${X(14.5)}" y="${ny - 25}">29'-0" OVERALL</text>`;
 
   // South Chain: 12 | 17 | 6 (Overall 35 ft)
-  const sy = Y(FP.zS) + 20;
+  const sy = Y(FP.zS) + 24;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${sy}" x2="${X(12)}" y2="${sy}"/><text class="dim-label" text-anchor="middle" x="${X(6)}" y="${sy + 13}">12'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(12)}" y1="${sy}" x2="${X(29)}" y2="${sy}"/><text class="dim-label" text-anchor="middle" x="${X(20.5)}" y="${sy + 13}">17'-0"</text>`;
   svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(29)}" y1="${sy}" x2="${X(35)}" y2="${sy}"/><text class="dim-label" text-anchor="middle" x="${X(32)}" y="${sy + 13}">6'-0"</text>`;
-  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${sy + 20}" x2="${X(35)}" y2="${sy + 20}"/><text class="dim-label" text-anchor="middle" x="${X(17.5)}" y="${sy + 33}">35'-0" OVERALL</text>`;
+  svg += `<line marker-start="url(#tick)" marker-end="url(#tick)" class="dim-line" x1="${X(0)}" y1="${sy + 24}" x2="${X(35)}" y2="${sy + 24}"/><text class="dim-label" text-anchor="middle" x="${X(17.5)}" y="${sy + 37}">35'-0" OVERALL</text>`;
 
   // Right (East) Chain: 12 | 12 | 18 (Overall 42 ft)
   const ex = X(FP.xV) + 18;
