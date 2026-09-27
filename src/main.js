@@ -413,7 +413,7 @@ rugMesh.receiveShadow = true;
 groups.furniture.add(rugMesh);
 
 // ─────────────────────── ARCHITECTURAL WALL BUILDER ───────────────────────────
-function addWallSeg(p1, p2, height = WALL_H, yBase = 0.4, targetGroup = groups.walls) {
+function addWallSeg(p1, p2, height = WALL_H, yBase = 0.4, targetGroup = groups.walls, collidable = true) {
   const dx = p2.x - p1.x, dz = p2.z - p1.z;
   const len = Math.hypot(dx, dz);
   if (len < 0.05) return null;
@@ -426,14 +426,17 @@ function addWallSeg(p1, p2, height = WALL_H, yBase = 0.4, targetGroup = groups.w
   m.castShadow = true; m.receiveShadow = true;
   targetGroup.add(m);
 
-  // Collision box
-  const pad = 0.3;
-  collisionRects.push({
-    x1: Math.min(p1.x, p2.x) - pad,
-    x2: Math.max(p1.x, p2.x) + pad,
-    z1: Math.min(p1.z, p2.z) - pad,
-    z2: Math.max(p1.z, p2.z) + pad,
-  });
+  // Only solid geometry at human height should block walking. Door and window
+  // lintels sit above the player and must not close the opening below them.
+  if (collidable && yBase < 5.6) {
+    const pad = 0.3;
+    collisionRects.push({
+      x1: Math.min(p1.x, p2.x) - pad,
+      x2: Math.max(p1.x, p2.x) + pad,
+      z1: Math.min(p1.z, p2.z) - pad,
+      z2: Math.max(p1.z, p2.z) + pad,
+    });
+  }
   return m;
 }
 
@@ -1411,6 +1414,8 @@ let yaw = 0, pitch = 0, isDragging = false, lastX = 0, lastY = 0;
 
 window.addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
+  const movementKey = ['w', 'a', 's', 'd'].includes(k);
+  if (movementKey) e.preventDefault();
   activeKeys.add(k);
 
   // Number keys 1-9 to toggle layers
@@ -1438,6 +1443,10 @@ window.addEventListener('keydown', e => {
 });
 
 window.addEventListener('keyup', e => activeKeys.delete(e.key.toLowerCase()));
+window.addEventListener('blur', () => activeKeys.clear());
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) activeKeys.clear();
+});
 
 renderer.domElement.addEventListener('pointerdown', e => {
   if (state.view !== 'walk') return;
@@ -1448,6 +1457,10 @@ renderer.domElement.addEventListener('pointerdown', e => {
 
 renderer.domElement.addEventListener('pointerup', e => {
   if (state.view !== 'walk') return;
+  isDragging = false;
+  renderer.domElement.releasePointerCapture?.(e.pointerId);
+});
+renderer.domElement.addEventListener('pointercancel', e => {
   isDragging = false;
   renderer.domElement.releasePointerCapture?.(e.pointerId);
 });
@@ -1607,23 +1620,39 @@ if (labelsBtn) {
 const menuToggleBtn = document.querySelector('#btnMenuToggle');
 const sidebarPanel  = document.querySelector('#sidebarPanel');
 const closeDrawerBtn = document.querySelector('#btnCloseDrawer');
+const drawerBackdrop = document.querySelector('#drawerBackdrop');
+
+const closeDrawer = () => {
+  sidebarPanel?.classList.remove('drawer-open');
+  drawerBackdrop?.classList.remove('visible');
+};
 
 menuToggleBtn?.addEventListener('click', () => {
-  sidebarPanel?.classList.toggle('drawer-open');
+  const isOpen = sidebarPanel?.classList.toggle('drawer-open');
+  drawerBackdrop?.classList.toggle('visible', Boolean(isOpen));
 });
 closeDrawerBtn?.addEventListener('click', () => {
-  sidebarPanel?.classList.remove('drawer-open');
+  closeDrawer();
 });
+drawerBackdrop?.addEventListener('click', closeDrawer);
 
 // Mobile on-screen touch D-Pad
 document.querySelectorAll('[data-mobile-key]').forEach(btn => {
   const k = btn.dataset.mobileKey;
-  const press = e => { e.preventDefault(); activeKeys.add(k); btn.setPointerCapture?.(e.pointerId); };
-  const release = e => { e.preventDefault(); activeKeys.delete(k); btn.releasePointerCapture?.(e.pointerId); };
+  const press = e => {
+    e.preventDefault();
+    activeKeys.add(k);
+    btn.setPointerCapture?.(e.pointerId);
+  };
+  const release = e => {
+    e.preventDefault();
+    activeKeys.delete(k);
+    if (btn.hasPointerCapture?.(e.pointerId)) btn.releasePointerCapture(e.pointerId);
+  };
   btn.addEventListener('pointerdown', press);
   btn.addEventListener('pointerup', release);
   btn.addEventListener('pointercancel', release);
-  btn.addEventListener('pointerleave', release);
+  btn.addEventListener('lostpointercapture', () => activeKeys.delete(k));
 });
 
 // ─────────────────────── HIGH-RES A4 ARCHITECTURAL SVG GENERATOR ──────────────
